@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rock Paper Scissors (2 Players)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background: #f4f4f9;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .game {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            margin: 20px auto;
+            max-width: 900px;
+        }
+
+        .player {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0 10px;
+        }
+
+        .player h2 {
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .choices {
+            margin: 15px 0;
+        }
+
+        .choice {
+            display: inline-block;
+            margin: 5px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            transition: 0.2s;
+        }
+
+        .choice:hover {
+            background: #45a049;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        #Restart-Btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #f44336;
+            color: white;
+            transition: 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rock Paper Scissors - 2 Players</h1>
+
+    <div class="game">
+        <!-- Player 1 -->
+        <div class="player" id="player1">
+            <h2>Player 1</h2>
+            <div class="choices">
+                <button class="choice" id="Rock">✊ Rock</button>
+                <button class="choice" id="Paper">✋ Paper</button>
+                <button class="choice" id="Scissors">✌ Scissors</button>
+            </div>
+            <p id="choice1">Waiting...</p>
+        </div>
+
+        <!-- Player 2 -->
+        <div class="player" id="player2">
+            <h2>Player 2</h2>
+            <div class="choices">
+                <button class="choice" id="Rock">✊ Rock</button>
+                <button class="choice" id="Paper">✋ Paper</button>
+                <button class="choice" id="Scissors">✌ Scissors</button>
+            </div>
+            <p id="choice2">Waiting...</p>
+        </div>
+    </div>
+
+    <div id="result"></div>
+    <button id="Restart-Btn">Restart</button>
+
+    <script>
+        let player1Choice = null;
+        let player2Choice = null;
+
+        // choice: rock, paper, scissors
+        // playerNumber 1 or 2
+        function selectChoice(playerNumber, choice) {
+            if (playerNumber === 1) {
+                player1Choice = choice;
+                document.getElementById('choice1').innerText = `You chose: ${choice}`;
+            } else {
+                player2Choice = choice;
+                document.getElementById('choice2').innerText = `You chose: ${choice}`;
+            }
+
+            if (player1Choice && player2Choice) {
+                decideWinner();
+            }
+        }
+
+        function decideWinner() {
+            const result = document.getElementById('result');
+            let Rock = document.getElementById('Rock').innerText;
+            let Paper = document.getElementById('Paper').innerText;
+            let Scissors = document.getElementById('Scissors').innerText;
+
+            if (player1Choice === player2Choice) {
+                result.innerText = "It's a tie!";
+            }
+            else
+            if (
+                (player1Choice === Rock && player2Choice === Scissors) ||
+                (player1Choice === Paper && player2Choice === Rock) ||
+                (player1Choice === Scissors && player2Choice === Paper) 
+            ) {
+                result.innerText = "player 1 wins!";
+            } else {
+                result.innerText = "player 2 wins!";
+            }
+        }
+
+        document.getElementById('Restart-Btn').addEventListener('click', () => {
+            player1Choice = null;
+            player2Choice = null;
+            document.getElementById('choice1').innerText = 'Waiting...';
+            document.getElementById('choice2').innerText = 'Waiting...';
+            document.getElementById('result').innerText = '';
+        });
+
+        document.querySelectorAll('#player1 .choice').forEach(button => {
+            button.addEventListener('click', () => {
+                choice = button.innerText
+                selectChoice(1, choice)
+            }
+            )
+        });
+
+        document.querySelectorAll('#player2 .choice').forEach(button => {
+            button.addEventListener('click', () => {
+                choice = button.innerText
+                selectChoice(2, choice)
+            }
+            )
+        });
+
+    </script>
+</body>
+
+</html>
